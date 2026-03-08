@@ -23,7 +23,7 @@ export function FocusModeToggle({
     const { scale } = useFontScale();
 
     return (
-        <Box space="md">
+        <VStack space="md">
             <Text fontWeight="$semibold" color="$textLight900" mb="$4" style={{ fontSize: 16 * scale }}>
                 Modos de Visualização
             </Text>
@@ -130,6 +130,6 @@ export function FocusModeToggle({
                     trackColor={{ false: "#767577", true: "#10B981" }}
                 />
             </HStack>
-        </Box>
+        </VStack>
     );
 }

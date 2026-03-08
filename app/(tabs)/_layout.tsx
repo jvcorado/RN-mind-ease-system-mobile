@@ -2,8 +2,7 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { Home, CheckSquare, User, Settings } from 'lucide-react-native';
+import { Home, Brain, CheckSquare, User, Settings } from 'lucide-react-native';
 
 export default function TabLayout() {
 
@@ -13,7 +12,6 @@ export default function TabLayout() {
         tabBarActiveTintColor: '#3FA692',
         tabBarInactiveTintColor: '#94a3b8',
         headerShown: false,
-        tabBarButton: HapticTab,
         tabBarStyle: Platform.select({
           ios: {
             position: 'absolute',
@@ -33,6 +31,13 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <Home size={28} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="cognitive-panel"
+        options={{
+          title: 'Painel',
+          tabBarIcon: ({ color }) => <Brain size={28} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -56,6 +61,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <Settings size={28} color={color} />,
         }}
       />
+
     </Tabs>
   );
 }

@@ -35,7 +35,7 @@ export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
     };
 
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: ReturnType<typeof setInterval>;
         if (isRunning && timeLeft > 0) {
             interval = setInterval(() => {
                 setTimeLeft((t) => t - 1);
@@ -132,14 +132,10 @@ export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
                     bg={isRunning ? "#F59E0B" : "#3FA692"}
                     $active-opacity={0.8}
                 >
-                    {isRunning ? (
-                        <Pause size={24} color="white" fill="white" />
-                    ) : (
-                        <Play size={24} color="white" fill="white" />
-                    )}
+                    {isRunning ? <Pause size={24} color="white" /> : <Play size={24} color="white" />}
                 </Pressable>
 
-                <Box width={44} /> {/* Spacer to center the play button relative to the reset button */}
+                <Box width={44} />
             </HStack>
         </Box>
     );

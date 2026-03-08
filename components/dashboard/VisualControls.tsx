@@ -21,6 +21,8 @@ export function VisualControls({
     onContrastChange,
 }: VisualControlsProps) {
     const { scale } = useFontScale();
+    const normalizeSliderValue = (value: number | number[]) =>
+        Array.isArray(value) ? value[0] : value;
 
     return (
         <Box>
@@ -41,16 +43,18 @@ export function VisualControls({
                 </HStack>
                 <Slider
                     value={fontSize}
-                    onChange={(value) => onFontSizeChange(Math.floor(value))}
+                    onChange={(value) => onFontSizeChange(Math.round(normalizeSliderValue(value)))}
                     minValue={80}
                     maxValue={150}
                     step={5}
                     w="$full"
+                    size="md"
+                    orientation="horizontal"
                 >
-                    <SliderTrack>
-                        <SliderFilledTrack />
+                    <SliderTrack bg="$backgroundLight200">
+                        <SliderFilledTrack bg="#3FA692" />
                     </SliderTrack>
-                    <SliderThumb />
+                    <SliderThumb bg="#3FA692" $active-bg="#0f766e" />
                 </Slider>
             </VStack>
 
@@ -67,16 +71,18 @@ export function VisualControls({
                 </HStack>
                 <Slider
                     value={spacing}
-                    onChange={(value) => onSpacingChange(Math.floor(value))}
+                    onChange={(value) => onSpacingChange(Math.round(normalizeSliderValue(value)))}
                     minValue={80}
                     maxValue={150}
                     step={5}
                     w="$full"
+                    size="md"
+                    orientation="horizontal"
                 >
-                    <SliderTrack>
-                        <SliderFilledTrack />
+                    <SliderTrack bg="$backgroundLight200">
+                        <SliderFilledTrack bg="#3FA692" />
                     </SliderTrack>
-                    <SliderThumb />
+                    <SliderThumb bg="#3FA692" $active-bg="#0f766e" />
                 </Slider>
             </VStack>
 
@@ -93,17 +99,18 @@ export function VisualControls({
                 </HStack>
                 <Slider
                     value={contrast}
-                    onChange={(value) => onContrastChange(Math.floor(value))}
+                    onChange={(value) => onContrastChange(Math.round(normalizeSliderValue(value)))}
                     minValue={80}
                     maxValue={120}
                     step={5}
                     w="$full"
-
+                    size="md"
+                    orientation="horizontal"
                 >
-                    <SliderTrack>
-                        <SliderFilledTrack />
+                    <SliderTrack bg="$backgroundLight200">
+                        <SliderFilledTrack bg="#3FA692" />
                     </SliderTrack>
-                    <SliderThumb />
+                    <SliderThumb bg="#3FA692" $active-bg="#0f766e" />
                 </Slider>
             </VStack>
         </Box>
