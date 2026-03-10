@@ -1,50 +1,75 @@
-# Welcome to your Expo app 👋
+# Mind Ease System (Mobile)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+O **Mind Ease System** é um aplicativo mobile desenvolvido com [React Native](https://reactnative.dev) e [Expo](https://expo.dev) focado na organização pessoal e bem-estar cognitivo.
 
-## Get started
+## Objetivo do Projeto
 
-1. Install dependencies
+O principal objetivo do Mind Ease é oferecer um ambiente de gestão de tarefas adaptável ao estado mental e cognitivo do próprio usuário. Ele foi desenhado para facilitar o foco e reduzir a sobrecarga de informações (overwhelm) por meio da personalização extrema da interface. 
 
+O sistema conta com funcionalidades como:
+- **Painel Cognitivo:** Permite o ajuste da interface visual ao seu ritmo mental daquele momento, alterando o nível de complexidade (simples vs detalhada), tamanho da fonte, espaçamentos e contrastes.
+- **Gestão de Tarefas:** Integra ferramentas de foco (como Pomodoro, Kanban e Checklists) adaptáveis para impulsionar a produtividade respeitando os limites da mente.
+- **Modos de Foco e Resumo:** Opções para ocultar descrições e distrações visuais, permitindo uma rotina fluída e eficiente.
+- **Autenticação Segura:** Autenticação e sincronização de progresso providas através de integração robusta com [Supabase](https://supabase.com).
+
+## Tecnologias Utilizadas
+
+- **React Native** + **Expo** (com *Expo Router*)
+- **TypeScript** para garantir segurança e previsibilidade do código
+- **Gluestack UI** (`@gluestack-ui/themed` + `@gluestack-style/react`) para construção de telas modernas, responsivas e flexíveis.
+- **Supabase** (`@supabase/supabase-js`) como Backend-as-a-Service para persistência de dados (Banco de dados) e Autenticação.
+
+---
+
+## Como Rodar o Projeto
+
+Siga os passos abaixo para configurar e rodar o projeto localmente:
+
+### 1. Pré-requisitos
+- Ter o [Node.js](https://nodejs.org/en/) instalado (versão 18 ou superior).
+- Ter configurado um emulador de Android/iOS ou o aplicativo **Expo Go** no seu celular para visualizar a aplicação; as orientações completas para ambiente React Native podem ser conferidas [na documentação do Expo](https://docs.expo.dev/get-started/installation/).
+
+### 2. Passo a Passo
+
+1. **Clone do Repositório (se aplicável)**
+   Caso ainda não o tenha feito, primeiro acesse a pasta do projeto:
+   ```bash
+   cd RN-mind-ease-system-mobile
+   ```
+
+2. **Instalação das Dependências**
+   Rode o comando abaixo para instalar todas as bibliotecas necessárias:
    ```bash
    npm install
    ```
 
-2. Start the app
+3. **Configuração de Variáveis de Ambiente**
+   Existe um arquivo `.env` na raiz do projeto onde ficam as credenciais de acesso para a API do Supabase e outras plataformas. Certifique-se de preenchê-las com as chaves apropriadas do seu ambiente.
+   ```bash
+   # Exemplo (Verifique seu arquivo .env)
+   EXPO_PUBLIC_SUPABASE_URL=sua_url_aqui
+   EXPO_PUBLIC_SUPABASE_ANON_KEY=sua_chave_aqui
+   ```
 
+4. **Iniciando o Servidor de Desenvolvimento**
+   Execute o comando do Expo para iniciar a aplicação:
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+5. **Exibindo no Celular ou Emulador**
+   - No terminal, um QR Code será gerado.
+   - Pelo seu aparelho móvel, escaneie-o usando o app **Expo Go** (no Android via próprio app do Expo Go e no iOS pela Câmera).
+   - Alternativamente, pressione `a` no terminal para rodar o emulador do Android, ou `i` para o simulador do iOS, caso os tenha instalado.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Scripts Disponíveis
+Dentro do arquivo `package.json`, alguns scripts podem ser rodados utilizando `npm run <script>`:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- `npm run start` ou `npx expo start`: Inicia o bundler do Expo.
+- `npm run android`: Inicia o app no emulador Android de modo direto.
+- `npm run ios`: Inicia o app no emulador iOS de modo direto.
+- `npm run reset-project`: Remove código padrão do Expo Router e inicia com um `/app` em branco.
 
-## Get a fresh project
+---
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+*Crie o seu ritmo, adapte a sua mente. Boas contribuições!*
