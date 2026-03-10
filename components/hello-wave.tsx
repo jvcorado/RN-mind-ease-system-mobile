@@ -1,6 +1,19 @@
+import { Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+import { useAppearance } from '@/contexts/AppearanceContext';
+
 export function HelloWave() {
+  const { disableAnimations } = useAppearance();
+
+  if (disableAnimations) {
+    return (
+      <Text style={{ fontSize: 28, lineHeight: 32, marginTop: -6 }}>
+        👋
+      </Text>
+    );
+  }
+
   return (
     <Animated.Text
       style={{
