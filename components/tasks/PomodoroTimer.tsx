@@ -2,13 +2,14 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Box, Text, Pressable, HStack } from "@gluestack-ui/themed";
 import { Play, Pause, RotateCcw, Coffee } from "lucide-react-native";
 import Svg, { Circle } from "react-native-svg";
-import { useWindowDimensions } from "react-native";
+import { useScaledSpace } from "@/contexts/AppearanceContext";
 
 interface PomodoroTimerProps {
     onBreakSuggestion?: () => void;
 }
 
 export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
+    const space = useScaledSpace();
     const [isRunning, setIsRunning] = useState(false);
     const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes
     const [isBreak, setIsBreak] = useState(false);
@@ -57,18 +58,16 @@ export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
     const strokeDashoffset = circumference - (progress / 100) * circumference;
 
     return (
-        <Box bg="$white" p="$5" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" mb="$6">
-            <HStack justifyContent="space-between" alignItems="center" mb="$4">
+        <Box bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" style={{ padding: space(24), marginBottom: space(28) }}>
+            <HStack justifyContent="space-between" alignItems="center" style={{ marginBottom: space(20) }}>
                 <Text fontWeight="$bold" size="md">Timer de Foco</Text>
                 <Pressable
                     onPress={toggleBreak}
                     bg={isBreak ? "#EEF2FF" : "$backgroundLight100"}
-                    px="$3"
-                    py="$1.5"
                     borderRadius="$lg"
                     flexDirection="row"
                     alignItems="center"
-                    gap="$2"
+                    style={{ paddingHorizontal: space(12), paddingVertical: space(6), gap: space(8) }}
                 >
                     <Coffee size={14} color={isBreak ? "#4F46E5" : "#64748b"} />
                     <Text size="xs" color={isBreak ? "#4F46E5" : "$textLight500"}>
@@ -77,7 +76,7 @@ export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
                 </Pressable>
             </HStack>
 
-            <Box alignItems="center" mb="$6">
+            <Box alignItems="center" style={{ marginBottom: space(24) }}>
                 <Box width={size} height={size} position="relative" justifyContent="center" alignItems="center">
                     <Svg width={size} height={size} style={{ transform: [{ rotate: "-90deg" }] }}>
                         {/* Background Circle */}
@@ -107,30 +106,30 @@ export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
                         <Text size="3xl" fontWeight="$bold" style={{ fontVariant: ['tabular-nums'] }}>
                             {formatTime(timeLeft)}
                         </Text>
-                        <Text size="xs" color="$textLight500" mt="$1">
+                        <Text size="xs" color="$textLight500" style={{ marginTop: space(4) }}>
                             {isBreak ? "Tempo de pausa" : "Tempo de foco"}
                         </Text>
                     </Box>
                 </Box>
             </Box>
 
-            <HStack justifyContent="center" alignItems="center" gap="$4">
+            <HStack justifyContent="center" alignItems="center" style={{ gap: space(20) }}>
                 <Pressable
                     onPress={reset}
-                    p="$3"
                     borderRadius="$xl"
                     bg="$backgroundLight100"
                     $active-bg="$backgroundLight200"
+                    style={{ padding: space(14) }}
                 >
                     <RotateCcw size={20} color="#64748b" />
                 </Pressable>
 
                 <Pressable
                     onPress={() => setIsRunning(!isRunning)}
-                    p="$4"
                     borderRadius="$xl"
                     bg={isRunning ? "#F59E0B" : "#3FA692"}
                     $active-opacity={0.8}
+                    style={{ padding: space(18) }}
                 >
                     {isRunning ? <Pause size={24} color="white" /> : <Play size={24} color="white" />}
                 </Pressable>

@@ -1,6 +1,6 @@
-import React from "react";
 import { Box, HStack, Switch, Text, VStack } from "@gluestack-ui/themed";
-import { Focus, Eye, BookOpen } from "lucide-react-native";
+import { BookOpen, Eye, Focus } from "lucide-react-native";
+import React from "react";
 import { useFontScale } from "./FontContext";
 
 interface FocusModeToggleProps {
@@ -35,7 +35,6 @@ export function FocusModeToggle({
                 p="$4"
                 borderRadius="$xl"
                 bg="#E3F2EE"
-                mb="$4"
             >
                 <HStack space="md" alignItems="center">
                     <Box
@@ -59,7 +58,7 @@ export function FocusModeToggle({
                 <Switch
                     value={focusMode}
                     onValueChange={onFocusModeChange}
-                    trackColor={{ false: "#767577", true: "#10B981" }} // Example secondary color
+                    trackColor={{ false: "#767577", true: "#10B981" }}
                 />
             </HStack>
 
@@ -93,7 +92,7 @@ export function FocusModeToggle({
                 <Switch
                     value={summaryMode}
                     onValueChange={onSummaryModeChange}
-                    trackColor={{ false: "#767577", true: "#10B981" }} // Example secondary color
+                    trackColor={{ false: "#767577", true: "#10B981" }}
                 />
             </HStack>
 

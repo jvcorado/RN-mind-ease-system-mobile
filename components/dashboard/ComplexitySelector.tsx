@@ -1,28 +1,24 @@
+import { Box, HStack, Pressable, Text } from "@gluestack-ui/themed";
+import { Layers, LayoutList } from "lucide-react-native";
 import React from "react";
-import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
-import { Layers, LayoutGrid, LayoutList } from "lucide-react-native";
 import { useFontScale } from "./FontContext";
+
+export type ComplexityOption = "simple" | "detailed";
 
 interface ComplexitySelectorProps {
     value: "simple" | "medium" | "detailed";
-    onChange: (value: "simple" | "medium" | "detailed") => void;
+    onChange: (value: ComplexityOption) => void;
 }
 
-const options = [
+const options: { value: ComplexityOption; label: string; description: string; icon: typeof LayoutList }[] = [
     {
-        value: "simple" as const,
+        value: "simple",
         label: "Simples",
         description: "Menos informações",
         icon: LayoutList,
     },
     {
-        value: "medium" as const,
-        label: "Médio",
-        description: "Equilíbrio",
-        icon: LayoutGrid,
-    },
-    {
-        value: "detailed" as const,
+        value: "detailed",
         label: "Detalhado",
         description: "Tudo",
         icon: Layers,
@@ -31,6 +27,7 @@ const options = [
 
 export function ComplexitySelector({ value, onChange }: ComplexitySelectorProps) {
     const { scale } = useFontScale();
+    const displayValue: ComplexityOption = value === "medium" ? "detailed" : value;
 
     return (
         <Box>
@@ -39,7 +36,7 @@ export function ComplexitySelector({ value, onChange }: ComplexitySelectorProps)
             </Text>
             <HStack space="md">
                 {options.map((option) => {
-                    const isSelected = value === option.value;
+                    const isSelected = displayValue === option.value;
                     return (
                         <Pressable
                             key={option.value}
@@ -54,7 +51,7 @@ export function ComplexitySelector({ value, onChange }: ComplexitySelectorProps)
                         >
                             <option.icon
                                 size={24}
-                                color={isSelected ? "#3FA692" : "#737373"} // Adjust colors as needed
+                                color={isSelected ? "#3FA692" : "#737373"}
                             />
                             <Text size="sm" fontWeight="$medium" mt="$2" style={{ fontSize: 14 * scale }}>
                                 {option.label}

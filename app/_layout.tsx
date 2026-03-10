@@ -1,13 +1,31 @@
+import { config } from "@gluestack-ui/config";
+import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import 'react-native-reanimated';
-import { GluestackUIProvider } from "@gluestack-ui/themed";
-import { config } from "@gluestack-ui/config";
-import { useEffect } from 'react';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+
+function WebStyleGate({ children }: { children: React.ReactNode }) {
+  const [ready, setReady] = useState(Platform.OS !== 'web');
+
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setReady(true));
+    });
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  if (!ready) {
+    return null;
+  }
+  return <>{children}</>;
+}
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -35,8 +53,8 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'Home' }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="register" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
@@ -51,9 +69,11 @@ export default function RootLayout() {
 
   return (
     <GluestackUIProvider config={config}>
-      <AuthProvider>
-        <RootLayoutNav />
-      </AuthProvider>
+      <WebStyleGate>
+        <AuthProvider>
+          <RootLayoutNav />
+        </AuthProvider>
+      </WebStyleGate>
     </GluestackUIProvider>
   );
 }
