@@ -38,7 +38,7 @@ function mapUiStatusToApi(status: Task["status"]): "todo" | "in_progress" | "don
 function TasksContent() {
     const { scale } = useFontScale();
     const space = useScaledSpace();
-    const { complexityLevel, summaryMode, focusMode, disableAnimations, reduceVisualStimuli } = useAppearance();
+    const { complexityLevel, summaryMode, focusMode, disableAnimations, reduceVisualStimuli, contrastColors } = useAppearance();
     const hideDescriptions = complexityLevel === "simple" || summaryMode || focusMode;
     const [tasks, setTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState(true);
@@ -163,7 +163,7 @@ function TasksContent() {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <Box flex={1} bg="$white">
-                <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+                <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
                     <VStack style={{ padding: space(8)}}>
                         {/* Header */}
                         <HStack alignItems="flex-start" justifyContent="space-between" style={{ marginBottom: space(12) }}>
@@ -172,7 +172,7 @@ function TasksContent() {
                                     w="$12"
                                     h="$12"
                                     borderRadius="$xl"
-                                    bg="#3FA692"
+                                    bg={contrastColors.primary}
                                     alignItems="center"
                                     justifyContent="center"
                                 >
@@ -202,7 +202,7 @@ function TasksContent() {
 
                         <Pressable
                             onPress={() => setIsAddTaskModalOpen(true)}
-                            bg="#3FA692"
+                            bg={contrastColors.primary}
                             borderRadius="$xl"
                             flexDirection="row"
                             alignItems="center"
@@ -227,7 +227,7 @@ function TasksContent() {
 
                         {loading ? (
                             <Box alignItems="center" justifyContent="center" flexDirection="row" style={{ paddingVertical: space(16), gap: space(8), marginBottom: space(16) }}>
-                                {!disableAnimations && <ActivityIndicator size="small" color="#3FA692" />}
+                                {!disableAnimations && <ActivityIndicator size="small" color={contrastColors.primary} />}
                                 <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scale }}>Carregando tarefas...</Text>
                             </Box>
                         ) : null}
@@ -394,7 +394,7 @@ function TasksContent() {
                                         borderRadius="$xl"
                                         alignItems="center"
                                         justifyContent="center"
-                                        bg="#3FA692"
+                                        bg={contrastColors.primary}
                                         style={{ paddingVertical: space(14) }}
                                         onPress={handleCreateTask}
                                     >

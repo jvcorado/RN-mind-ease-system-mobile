@@ -1,6 +1,8 @@
-import { userSettingsRepository } from "@/data/repositories/userSettingsRepository";
+import { CONTRAST_PALETTE, CONTRAST_PALETTE_MUTED, type ContrastPalette } from "@/constants/contrastColors";
 import type { ComplexityLevel } from "@/data/repositories/userSettingsRepository";
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { userSettingsRepository } from "@/data/repositories/userSettingsRepository";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { Platform } from "react-native";
 
 export type { ComplexityLevel };
 
@@ -31,6 +33,7 @@ type AppearanceContextType = AppearanceState & {
   fontScale: number;
   /** Escala de espaçamento (spacing / 100) para padding, margin, gap */
   spacingScale: number;
+  contrastColors: ContrastPalette;
   /** Atualiza os valores (ex.: após salvar nas Configurações) */
   setAppearance: (next: Partial<AppearanceState>) => void;
   /** Reaplica valores a partir da API (ex.: ao focar nas tabs) */
@@ -76,10 +79,16 @@ export function AppearanceProvider({ children }: { children: React.ReactNode }) 
     }));
   }, []);
 
+  const contrastColors: ContrastPalette = useMemo(() => {
+    if (Platform.OS === "ios" && state.contrast < 100) return CONTRAST_PALETTE_MUTED;
+    return CONTRAST_PALETTE;
+  }, [state.contrast]);
+
   const value: AppearanceContextType = {
     ...state,
     fontScale: state.fontSize / 100,
     spacingScale: state.spacing / 100,
+    contrastColors,
     setAppearance,
     refreshFromApi,
   };
@@ -99,7 +108,6 @@ export function useAppearance() {
   return ctx;
 }
 
-/** Retorna um valor de espaço escalado (ex.: space(16) para padding). Use em style. */
 export function useScaledSpace() {
   const { spacingScale } = useAppearance();
   return useCallback(

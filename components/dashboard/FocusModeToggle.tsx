@@ -1,3 +1,4 @@
+import { useAppearance } from "@/contexts/AppearanceContext";
 import { Box, HStack, Switch, Text, VStack } from "@gluestack-ui/themed";
 import { BookOpen, Eye, Focus } from "lucide-react-native";
 import React from "react";
@@ -21,6 +22,7 @@ export function FocusModeToggle({
     onReadingModeChange,
 }: FocusModeToggleProps) {
     const { scale } = useFontScale();
+    const { contrastColors } = useAppearance();
 
     return (
         <VStack space="md">
@@ -34,7 +36,7 @@ export function FocusModeToggle({
                 alignItems="center"
                 p="$4"
                 borderRadius="$xl"
-                bg="#E3F2EE"
+                bg={contrastColors.primaryLight}
             >
                 <HStack space="md" alignItems="center">
                     <Box
@@ -43,7 +45,7 @@ export function FocusModeToggle({
                         borderRadius="$xl"
                         alignItems="center"
                         justifyContent="center"
-                        bg={focusMode ? "#3FA692" : "#F0F4F3"}
+                        bg={focusMode ? contrastColors.primary : "#F0F4F3"}
                     >
                         <Focus
                             size={20}
@@ -68,7 +70,7 @@ export function FocusModeToggle({
                 alignItems="center"
                 p="$4"
                 borderRadius="$xl"
-                bg="#E3F2EE"
+                bg={contrastColors.primaryLight}
             >
                 <HStack space="md" alignItems="center">
                     <Box
@@ -77,7 +79,7 @@ export function FocusModeToggle({
                         borderRadius="$xl"
                         alignItems="center"
                         justifyContent="center"
-                        bg={summaryMode ? "#3FA692" : "#F0F4F3"}
+                        bg={summaryMode ? contrastColors.primary : "#F0F4F3"}
                     >
                         <Eye
                             size={20}
@@ -102,7 +104,7 @@ export function FocusModeToggle({
                 alignItems="center"
                 p="$4"
                 borderRadius="$xl"
-                bg="#E3F2EE"
+                bg={contrastColors.primaryLight}
             >
                 <HStack space="md" alignItems="center">
                     <Box
@@ -111,7 +113,7 @@ export function FocusModeToggle({
                         borderRadius="$xl"
                         alignItems="center"
                         justifyContent="center"
-                        bg={readingMode ? "#3FA692" : "#F0F4F3"}
+                        bg={readingMode ? contrastColors.primary : "#F0F4F3"}
                     >
                         <BookOpen
                             size={20}
