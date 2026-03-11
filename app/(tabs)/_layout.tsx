@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Platform, View } from 'react-native';
 
 import { FontProvider } from '@/components/dashboard/FontContext';
@@ -9,15 +9,24 @@ import { Brain, CheckSquare, Home, Settings, User } from 'lucide-react-native';
 function ContrastWrapper({ children }: { children: React.ReactNode }) {
   const { contrast } = useAppearance();
   const value = contrast / 100;
-  const style =
-    Platform.OS === 'web' && value !== 1
-      ? { flex: 1 as const, filter: `contrast(${value})` }
-      : { flex: 1 as const };
-  return <View style={style}>{children}</View>;
+
+  const containerStyle = useMemo(() => {
+    const base = { flex: 1 as const };
+    if (value === 1) return base;
+    if (Platform.OS === 'web') {
+      return { ...base, filter: `contrast(${value})` as const };
+    }
+    if (Platform.OS === 'android') {
+      return { ...base, overflow: 'hidden' as const, filter: [{ contrast: value }] };
+    }
+    return base;
+  }, [value]);
+
+  return <View style={containerStyle}>{children}</View>;
 }
 
 function TabsWithAppearance() {
-  const { fontSize, disableAnimations } = useAppearance();
+  const { fontSize, disableAnimations, contrastColors } = useAppearance();
 
   return (
     <FontProvider fontSize={fontSize}>
@@ -25,7 +34,7 @@ function TabsWithAppearance() {
         <Tabs
           screenOptions={{
             animation: disableAnimations ? 'none' : undefined,
-            tabBarActiveTintColor: '#3FA692',
+            tabBarActiveTintColor: contrastColors.primary,
             tabBarInactiveTintColor: '#94a3b8',
             headerShown: false,
             headerTitle: '',

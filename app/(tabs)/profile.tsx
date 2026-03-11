@@ -8,16 +8,10 @@ import { type ProfileRow } from "@/data/types/user";
 import { type UserSettingsRow } from "@/data/types/userSettings";
 import { Box, Button, ButtonIcon, ButtonText, HStack, Pressable, ScrollView, Text, VStack } from "@gluestack-ui/themed";
 import { useFocusEffect } from "@react-navigation/native";
-import { Brain, LogOut, Settings, User } from "lucide-react-native";
+import { LogOut, Settings, User } from "lucide-react-native";
 import React, { useCallback, useState } from "react";
 import { ActivityIndicator, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const cognitiveProfile = {
-    type: "Foco Adaptativo",
-    description: "Prefere sessões curtas com pausas frequentes",
-    strengths: ["Criatividade", "Resolução de problemas", "Pensamento visual"],
-};
 
 function formatComplexity(level: string | null | undefined): string {
     if (!level) return "—";
@@ -43,7 +37,7 @@ export default function ProfileScreen() {
 function ProfileContent() {
     const { scale } = useFontScale();
     const space = useScaledSpace();
-    const { complexityLevel, summaryMode, focusMode, reduceVisualStimuli, disableAnimations } = useAppearance();
+    const { complexityLevel, summaryMode, focusMode, reduceVisualStimuli, disableAnimations, contrastColors } = useAppearance();
     const { user } = useAuth();
     const hideDescriptions = complexityLevel === "simple" || summaryMode || focusMode;
     const [profile, setProfile] = useState<ProfileRow | null>(null);
@@ -88,12 +82,12 @@ function ProfileContent() {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <Box flex={1} bg="$white">
-                <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+                <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
                     <VStack style={{ padding: space(16), paddingTop: space(16), gap: space(24) }}>
                         {/* Header */}
                         <HStack alignItems="center" justifyContent="space-between" style={{ marginBottom: space(12) }}>
                             <HStack alignItems="center" style={{ gap: space(16) }}>
-                                <Box w="$12" h="$12" borderRadius="$xl" bg="#3FA692" alignItems="center" justifyContent="center">
+                                <Box w="$12" h="$12" borderRadius="$xl" bg={contrastColors.primary} alignItems="center" justifyContent="center">
                                     <User size={24} color="white" />
                                 </Box>
                                 <VStack>
@@ -136,14 +130,14 @@ function ProfileContent() {
 
                         {loading ? (
                             <Box alignItems="center" justifyContent="center" flexDirection="row" style={{ paddingVertical: space(16), gap: space(8), marginBottom: space(16) }}>
-                                {!disableAnimations && <ActivityIndicator size="small" color="#3FA692" />}
+                                {!disableAnimations && <ActivityIndicator size="small" color={contrastColors.primary} />}
                                 <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scale }}>Carregando perfil...</Text>
                             </Box>
                         ) : null}
 
                         <Box bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} style={{ padding: space(18), marginBottom: space(14) }}>
                             <VStack alignItems="center" style={{ gap: space(16) }}>
-                                <Box w="$24" h="$24" borderRadius="$2xl" bg="#3FA692" opacity={reduceVisualStimuli ? 1 : 0.8} alignItems="center" justifyContent="center">
+                                <Box w="$24" h="$24" borderRadius="$2xl" bg={contrastColors.primary} opacity={reduceVisualStimuli ? 1 : 0.8} alignItems="center" justifyContent="center">
                                     <Text size="3xl" fontWeight="$bold" color="white">
                                         {displayName.slice(0, 2).toUpperCase()}
                                     </Text>
@@ -159,52 +153,11 @@ function ProfileContent() {
                                     <Text size="sm" color="$textLight500" style={{ marginBottom: space(16) }}>
                                         {memberSince}
                                     </Text>
-
-                                    <HStack flexWrap="wrap" justifyContent="center" style={{ gap: space(8) }}>
-                                        <Box borderRadius="$full" bg="#E3F2EE" style={{ paddingHorizontal: space(12), paddingVertical: space(6) }}>
-                                            <Text size="sm" fontWeight="$medium" color="#3FA692">
-                                                {cognitiveProfile.type}
-                                            </Text>
-                                        </Box>
-                                        <Box borderRadius="$full" bg="$backgroundLight100" style={{ paddingHorizontal: space(12), paddingVertical: space(6) }}>
-                                            <Text size="sm" fontWeight="$medium" color="$textLight700">
-                                                Premium
-                                            </Text>
-                                        </Box>
-                                    </HStack>
                                 </VStack>
                             </VStack>
                         </Box>
 
                         <VStack style={{ gap: space(24) }}>
-                            {!hideDescriptions && (
-                                <Box bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} style={{ padding: space(18) }}>
-                                    <HStack alignItems="center" style={{ gap: space(12), marginBottom: space(16) }}>
-                                        <Box w="$10" h="$10" borderRadius="$xl" bg="$backgroundLight100" alignItems="center" justifyContent="center">
-                                            <Brain size={20} color="#64748b" />
-                                        </Box>
-                                        <Text fontWeight="$semibold" color="$textLight900">Perfil Cognitivo</Text>
-                                    </HStack>
-
-                                    <Text size="sm" color="$textLight500" style={{ marginBottom: space(16) }}>
-                                        {cognitiveProfile.description}
-                                    </Text>
-
-                                    <VStack style={{ gap: space(10) }}>
-                                        <Text size="xs" color="$textLight500" textTransform="uppercase" letterSpacing="$sm">
-                                            Pontos fortes
-                                        </Text>
-                                        <HStack flexWrap="wrap" style={{ gap: space(8) }}>
-                                            {cognitiveProfile.strengths.map((strength) => (
-                                                <Box key={strength} borderRadius="$lg" bg="#DCFCE7" style={{ paddingHorizontal: space(12), paddingVertical: space(6) }}>
-                                                    <Text size="sm" color="#166534">{strength}</Text>
-                                                </Box>
-                                            ))}
-                                        </HStack>
-                                    </VStack>
-                                </Box>
-                            )}
-
                             {/* Active Preferences */}
                             <Box bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} style={{ padding: space(18) }}>
                                 <HStack alignItems="center" style={{ gap: space(12), marginBottom: space(16) }}>

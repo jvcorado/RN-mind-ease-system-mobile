@@ -1,7 +1,13 @@
+import { Box, HStack, Text, VStack } from "@gluestack-ui/themed";
+import { Move, Sun, Type } from "lucide-react-native";
 import React from "react";
-import { Box, HStack, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, VStack } from "@gluestack-ui/themed";
-import { Type, Move, Sun } from "lucide-react-native";
+import { StyleSheet } from "react-native";
+import Slider from "@react-native-community/slider";
+
+import { useAppearance } from "@/contexts/AppearanceContext";
 import { useFontScale } from "./FontContext";
+
+const TRACK_BAR_COLOR = "#94a3b8";
 
 interface VisualControlsProps {
     fontSize: number;
@@ -21,8 +27,7 @@ export function VisualControls({
     onContrastChange,
 }: VisualControlsProps) {
     const { scale } = useFontScale();
-    const normalizeSliderValue = (value: number | number[]) =>
-        Array.isArray(value) ? value[0] : value;
+    const { contrastColors } = useAppearance();
 
     return (
         <Box>
@@ -33,8 +38,8 @@ export function VisualControls({
             {/* Font Size */}
             <VStack space="sm">
                 <HStack space="md" alignItems="center">
-                    <Box w="$10" h="$10" borderRadius="$xl" bg="#E3F2EE" alignItems="center" justifyContent="center">
-                        <Type size={20} color="#3FA692" />
+                    <Box w="$10" h="$10" borderRadius="$xl" bg={contrastColors.primaryLight} alignItems="center" justifyContent="center">
+                        <Type size={20} color={contrastColors.primary} />
                     </Box>
                     <Box flex={1}>
                         <Text size="sm" fontWeight="$medium" style={{ fontSize: 14 * scale }}>Tamanho da Fonte</Text>
@@ -42,27 +47,23 @@ export function VisualControls({
                     </Box>
                 </HStack>
                 <Slider
+                    style={styles.slider}
                     value={fontSize}
-                    onChange={(value) => onFontSizeChange(Math.round(normalizeSliderValue(value)))}
-                    minValue={80}
-                    maxValue={150}
+                    onValueChange={(v) => onFontSizeChange(Math.round(v))}
+                    minimumValue={80}
+                    maximumValue={150}
                     step={5}
-                    w="$full"
-                    size="md"
-                    orientation="horizontal"
-                >
-                    <SliderTrack bg="$backgroundLight200">
-                        <SliderFilledTrack bg="#3FA692" />
-                    </SliderTrack>
-                    <SliderThumb bg="#3FA692" $active-bg="#0f766e" />
-                </Slider>
+                    minimumTrackTintColor={contrastColors.primary}
+                    maximumTrackTintColor={TRACK_BAR_COLOR}
+                    thumbTintColor={contrastColors.primary}
+                />
             </VStack>
 
             {/* Spacing */}
             <VStack space="sm" mt="$4">
                 <HStack space="md" alignItems="center">
-                    <Box w="$10" h="$10" borderRadius="$xl" bg="#E3F2EE" alignItems="center" justifyContent="center">
-                        <Move size={20} color="#3FA692" />
+                    <Box w="$10" h="$10" borderRadius="$xl" bg={contrastColors.primaryLight} alignItems="center" justifyContent="center">
+                        <Move size={20} color={contrastColors.primary} />
                     </Box>
                     <Box flex={1}>
                         <Text size="sm" fontWeight="$medium" style={{ fontSize: 14 * scale }}>Espaçamento</Text>
@@ -70,27 +71,23 @@ export function VisualControls({
                     </Box>
                 </HStack>
                 <Slider
+                    style={styles.slider}
                     value={spacing}
-                    onChange={(value) => onSpacingChange(Math.round(normalizeSliderValue(value)))}
-                    minValue={80}
-                    maxValue={150}
+                    onValueChange={(v) => onSpacingChange(Math.round(v))}
+                    minimumValue={80}
+                    maximumValue={150}
                     step={5}
-                    w="$full"
-                    size="md"
-                    orientation="horizontal"
-                >
-                    <SliderTrack bg="$backgroundLight200">
-                        <SliderFilledTrack bg="#3FA692" />
-                    </SliderTrack>
-                    <SliderThumb bg="#3FA692" $active-bg="#0f766e" />
-                </Slider>
+                    minimumTrackTintColor={contrastColors.primary}
+                    maximumTrackTintColor={TRACK_BAR_COLOR}
+                    thumbTintColor={contrastColors.primary}
+                />
             </VStack>
 
             {/* Contrast */}
             <VStack space="sm" mt="$4">
                 <HStack space="md" alignItems="center">
-                    <Box w="$10" h="$10" borderRadius="$xl" bg="#E3F2EE" alignItems="center" justifyContent="center">
-                        <Sun size={20} color="#3FA692" />
+                    <Box w="$10" h="$10" borderRadius="$xl" bg={contrastColors.primaryLight} alignItems="center" justifyContent="center">
+                        <Sun size={20} color={contrastColors.primary} />
                     </Box>
                     <Box flex={1}>
                         <Text size="sm" fontWeight="$medium" style={{ fontSize: 14 * scale }}>Contraste</Text>
@@ -98,21 +95,24 @@ export function VisualControls({
                     </Box>
                 </HStack>
                 <Slider
+                    style={styles.slider}
                     value={contrast}
-                    onChange={(value) => onContrastChange(Math.round(normalizeSliderValue(value)))}
-                    minValue={80}
-                    maxValue={120}
+                    onValueChange={(v) => onContrastChange(Math.round(v))}
+                    minimumValue={65}
+                    maximumValue={130}
                     step={5}
-                    w="$full"
-                    size="md"
-                    orientation="horizontal"
-                >
-                    <SliderTrack bg="$backgroundLight200">
-                        <SliderFilledTrack bg="#3FA692" />
-                    </SliderTrack>
-                    <SliderThumb bg="#3FA692" $active-bg="#0f766e" />
-                </Slider>
+                    minimumTrackTintColor={contrastColors.primary}
+                    maximumTrackTintColor={TRACK_BAR_COLOR}
+                    thumbTintColor={contrastColors.primary}
+                />
             </VStack>
         </Box>
     );
 }
+
+const styles = StyleSheet.create({
+    slider: {
+        width: "100%",
+        height: 40,
+    },
+});

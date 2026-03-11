@@ -1,3 +1,4 @@
+import { useAppearance } from "@/contexts/AppearanceContext";
 import { Box, HStack, Pressable, Text } from "@gluestack-ui/themed";
 import { Layers, LayoutList } from "lucide-react-native";
 import React from "react";
@@ -27,6 +28,7 @@ const options: { value: ComplexityOption; label: string; description: string; ic
 
 export function ComplexitySelector({ value, onChange }: ComplexitySelectorProps) {
     const { scale } = useFontScale();
+    const { contrastColors } = useAppearance();
     const displayValue: ComplexityOption = value === "medium" ? "detailed" : value;
 
     return (
@@ -43,15 +45,15 @@ export function ComplexitySelector({ value, onChange }: ComplexitySelectorProps)
                             onPress={() => onChange(option.value)}
                             flex={1}
                             borderWidth={2}
-                            borderColor={isSelected ? "#3FA692" : "transparent"}
-                            backgroundColor={isSelected ? "#E3F2EE" : "#F0F4F3"}
+                            borderColor={isSelected ? contrastColors.primary : "transparent"}
+                            backgroundColor={isSelected ? contrastColors.primaryLight : "#F0F4F3"}
                             borderRadius="$xl"
                             p="$4"
                             alignItems="center"
                         >
                             <option.icon
                                 size={24}
-                                color={isSelected ? "#3FA692" : "#737373"}
+                                color={isSelected ? contrastColors.primary : "#737373"}
                             />
                             <Text size="sm" fontWeight="$medium" mt="$2" style={{ fontSize: 14 * scale }}>
                                 {option.label}

@@ -32,7 +32,7 @@ function CognitivePanelContent() {
 
     const hasLoadedOnce = useRef(false);
     const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const { setAppearance, summaryMode: contextSummaryMode, focusMode: contextFocusMode, reduceVisualStimuli, disableAnimations } = useAppearance();
+    const { setAppearance, reduceVisualStimuli, disableAnimations, contrastColors } = useAppearance();
 
     const fetchSettings = useCallback(async () => {
         setLoading(true);
@@ -69,7 +69,8 @@ function CognitivePanelContent() {
         } finally {
             setLoading(false);
         }
-    }, [setAppearance]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useFocusEffect(
         useCallback(() => {
@@ -99,12 +100,8 @@ function CognitivePanelContent() {
 
     useEffect(() => {
         setAppearance({ fontSize, spacing, contrast, complexityLevel: complexity, summaryMode, focusMode });
-    }, [fontSize, spacing, contrast, complexity, summaryMode, focusMode, setAppearance]);
-
-    useEffect(() => {
-        setSummaryMode(contextSummaryMode);
-        setFocusMode(contextFocusMode);
-    }, [contextSummaryMode, contextFocusMode]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fontSize, spacing, contrast, complexity, summaryMode, focusMode]);
 
     useEffect(() => {
         if (!hasLoadedOnce.current) return;
@@ -135,11 +132,11 @@ function CognitivePanelContent() {
         <FontProvider fontSize={fontSize}>
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['top', 'bottom', 'left', 'right']}>
                 <Box flex={1} bg="$white">
-                    <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+                    <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
                         <VStack style={{ padding: space(16), paddingTop: space(16), gap: space(24) }}>
                             {/* Header */}
                             <Box flexDirection="row" alignItems="center" style={{ gap: space(16) }}>
-                                <Box w="$12" h="$12" borderRadius="$xl" bg="#3FA692" alignItems="center" justifyContent="center">
+                                <Box w="$12" h="$12" borderRadius="$xl" bg={contrastColors.primary} alignItems="center" justifyContent="center">
                                     <Brain size={24} color="white" />
                                 </Box>
                                 <VStack>
@@ -160,9 +157,9 @@ function CognitivePanelContent() {
                             ) : null}
 
                             {!hideDescriptions && (
-                                <Box bg="#E3F2EE" borderRadius="$xl" style={{ padding: space(16) }}>
+                                <Box bg={contrastColors.primaryLight} borderRadius="$xl" style={{ padding: space(16) }}>
                                     <Box flexDirection="row" style={{ gap: space(12) }}>
-                                        <Box w="$10" h="$10" borderRadius="$xl" bg="#3FA692" alignItems="center" justifyContent="center">
+                                        <Box w="$10" h="$10" borderRadius="$xl" bg={contrastColors.primary} alignItems="center" justifyContent="center">
                                             <Sparkles size={20} color="white" />
                                         </Box>
                                         <VStack flex={1}>
@@ -177,7 +174,7 @@ function CognitivePanelContent() {
 
                             {loading ? (
                                 <Box alignItems="center" justifyContent="center" minHeight={200} style={{ paddingVertical: space(20) }}>
-                                    {!disableAnimations && <ActivityIndicator size="large" color="#3FA692" />}
+                                    {!disableAnimations && <ActivityIndicator size="large" color={contrastColors.primary} />}
                                     <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scaleVal, marginTop: space(12) }}>Carregando configurações...</Text>
                                 </Box>
                             ) : (
