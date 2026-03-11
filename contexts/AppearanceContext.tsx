@@ -84,14 +84,16 @@ export function AppearanceProvider({ children }: { children: React.ReactNode }) 
     return CONTRAST_PALETTE;
   }, [state.contrast]);
 
-  const value: AppearanceContextType = {
+  const value: AppearanceContextType = useMemo(() => ({
     ...state,
     fontScale: state.fontSize / 100,
     spacingScale: state.spacing / 100,
     contrastColors,
     setAppearance,
     refreshFromApi,
-  };
+    // setAppearance e refreshFromApi são estáveis (useCallback com deps [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [state, contrastColors]);
 
   return (
     <AppearanceContext.Provider value={value}>
