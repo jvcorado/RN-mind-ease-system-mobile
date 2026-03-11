@@ -1,11 +1,5 @@
 import { supabase } from "../../lib/supabase";
-
-export type ProfileRow = {
-  name: string | null;
-  email: string | null;
-  created_at: string | null;
-  pomodoro_count: number | null;
-};
+import { ProfileRow } from "../types/user";
 
 export const userRepository = {
   async getProfile(): Promise<ProfileRow | null> {

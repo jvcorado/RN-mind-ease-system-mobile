@@ -10,7 +10,8 @@ import { FocusModeToggle } from "@/components/dashboard/FocusModeToggle";
 import { FontProvider } from "@/components/dashboard/FontContext";
 import { VisualControls } from "@/components/dashboard/VisualControls";
 import { useAppearance, useScaledSpace } from "@/contexts/AppearanceContext";
-import { userSettingsRepository, type ComplexityLevel } from "@/data/repositories/userSettingsRepository";
+import { userSettingsRepository } from "@/data/repositories/userSettingsRepository";
+import { type ComplexityLevel } from "@/data/types/userSettings";
 
 const DEBOUNCE_MS = 600;
 

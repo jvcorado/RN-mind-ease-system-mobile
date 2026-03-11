@@ -1,8 +1,10 @@
-import { CONTRAST_PALETTE, CONTRAST_PALETTE_MUTED, type ContrastPalette } from "@/constants/contrastColors";
-import type { ComplexityLevel } from "@/data/repositories/userSettingsRepository";
+
 import { userSettingsRepository } from "@/data/repositories/userSettingsRepository";
+import type { ComplexityLevel } from "@/data/types/userSettings";
+import { CONTRAST_PALETTE, CONTRAST_PALETTE_MUTED, type ContrastPalette } from "@/constants/contrastColors";
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Platform } from "react-native";
+
 
 export type { ComplexityLevel };
 

@@ -1,10 +1,5 @@
 import { supabase } from "../../lib/supabase";
-
-type TaskUpdate = {
-  title?: string;
-  description?: string;
-  status?: "todo" | "in_progress" | "done";
-};
+import { TaskUpdate } from "../types/task";
 
 export const taskRepository = {
   async getTasks() {
