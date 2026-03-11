@@ -70,10 +70,22 @@ export function AppearanceProvider({ children }: { children: React.ReactNode }) 
   }, [refreshFromApi]);
 
   const setAppearance = useCallback((next: Partial<AppearanceState>) => {
-    setState((prev) => ({
-      ...prev,
-      ...next,
-    }));
+    setState((prev) => {
+      let hasChanges = false;
+      for (const key in next) {
+        if (next[key as keyof AppearanceState] !== prev[key as keyof AppearanceState]) {
+          hasChanges = true;
+          break;
+        }
+      }
+      if (!hasChanges) {
+        return prev;
+      }
+      return {
+        ...prev,
+        ...next,
+      };
+    });
   }, []);
 
   const value: AppearanceContextType = {
