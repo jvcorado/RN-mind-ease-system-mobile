@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, HStack, VStack, Text, Pressable } from "@gluestack-ui/themed";
 import { CheckCircle, Circle, GripVertical } from "lucide-react-native";
-import { useScaledSpace } from "@/contexts/AppearanceContext";
+import { useAppearance, useScaledSpace } from "@/contexts/AppearanceContext";
 import type { Task } from "../../constants/tasks";
 
 interface TaskCardProps {
@@ -12,6 +12,7 @@ interface TaskCardProps {
 
 export function TaskCard({ task, onStepToggle, onStatusChange }: TaskCardProps) {
     const space = useScaledSpace();
+    const { contrastColors } = useAppearance();
     const completedSteps = task.steps.filter((s) => s.completed).length;
     const progress = task.steps.length > 0 ? (completedSteps / task.steps.length) * 100 : 0;
 
@@ -48,7 +49,7 @@ export function TaskCard({ task, onStepToggle, onStatusChange }: TaskCardProps) 
                 <Box h="$1.5" bg="$backgroundLight200" borderRadius="$full" overflow="hidden" style={{ marginBottom: space(16) }}>
                     <Box
                         h="$full"
-                        bg="#3FA692"
+                        bg={contrastColors.primary}
                         borderRadius="$full"
                         width={`${progress}%`}
                     />
@@ -68,7 +69,7 @@ export function TaskCard({ task, onStepToggle, onStatusChange }: TaskCardProps) 
                         style={{ gap: space(12), padding: space(10) }}
                     >
                         {step.completed ? (
-                            <CheckCircle size={16} color="#3FA692" />
+                            <CheckCircle size={16} color={contrastColors.primary} />
                         ) : (
                             <Circle size={16} color="#94a3b8" />
                         )}
@@ -106,10 +107,10 @@ export function TaskCard({ task, onStepToggle, onStatusChange }: TaskCardProps) 
                         bg="$backgroundLight100"
                         borderRadius="$lg"
                         alignItems="center"
-                        $active-bg="#E3F2EE"
+                        $active-bg={contrastColors.primaryLight}
                         style={{ paddingVertical: space(10), paddingHorizontal: space(12) }}
                     >
-                        <Text size="xs" color="#3FA692" fontWeight="$medium">Em Progresso</Text>
+                        <Text size="xs" color={contrastColors.primary} fontWeight="$medium">Em Progresso</Text>
                     </Pressable>
                 )}
                 {task.status !== "done" && (

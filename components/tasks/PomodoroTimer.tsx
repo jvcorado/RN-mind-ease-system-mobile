@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Box, Text, Pressable, HStack } from "@gluestack-ui/themed";
 import { Play, Pause, RotateCcw, Coffee } from "lucide-react-native";
 import Svg, { Circle } from "react-native-svg";
-import { useScaledSpace } from "@/contexts/AppearanceContext";
+import { useAppearance, useScaledSpace } from "@/contexts/AppearanceContext";
 
 interface PomodoroTimerProps {
     onBreakSuggestion?: () => void;
@@ -10,6 +10,7 @@ interface PomodoroTimerProps {
 
 export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
     const space = useScaledSpace();
+    const { contrastColors } = useAppearance();
     const [isRunning, setIsRunning] = useState(false);
     const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes
     const [isBreak, setIsBreak] = useState(false);
@@ -90,7 +91,7 @@ export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
                         />
                         {/* Progress Circle */}
                         <Circle
-                            stroke={isBreak ? "#4F46E5" : "#3FA692"}
+                            stroke={isBreak ? "#4F46E5" : contrastColors.primary}
                             fill="none"
                             cx={size / 2}
                             cy={size / 2}
@@ -127,7 +128,7 @@ export function PomodoroTimer({ onBreakSuggestion }: PomodoroTimerProps) {
                 <Pressable
                     onPress={() => setIsRunning(!isRunning)}
                     borderRadius="$xl"
-                    bg={isRunning ? "#F59E0B" : "#3FA692"}
+                    bg={isRunning ? "#F59E0B" : contrastColors.primary}
                     $active-opacity={0.8}
                     style={{ padding: space(18) }}
                 >

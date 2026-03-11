@@ -35,7 +35,7 @@ function DashboardContent() {
   const { user } = useAuth();
   const { scale } = useFontScale();
   const space = useScaledSpace();
-  const { complexityLevel, summaryMode, focusMode, reduceVisualStimuli, disableAnimations } = useAppearance();
+  const { complexityLevel, summaryMode, focusMode, reduceVisualStimuli, disableAnimations, contrastColors } = useAppearance();
   const hideDescriptions = complexityLevel === "simple" || summaryMode || focusMode;
 
   const userName = user?.user_metadata?.name?.split(' ')[0] || 'Usuário';
@@ -81,11 +81,11 @@ function DashboardContent() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <Box flex={1} bg="$white">
-        <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
           <VStack style={{ padding: space(16), paddingTop: space(16), gap: space(24) }}>
             {/* Header */}
             <HStack alignItems="center" style={{ gap: space(16), marginBottom: space(8) }}>
-              <Box w="$12" h="$12" borderRadius="$xl" bg="#3FA692" alignItems="center" justifyContent="center">
+              <Box w="$12" h="$12" borderRadius="$xl" bg={contrastColors.primary} alignItems="center" justifyContent="center">
                 <Sparkles size={24} color="white" />
               </Box>
               <VStack>
@@ -111,7 +111,7 @@ function DashboardContent() {
 
             {!hideDescriptions && loading ? (
               <Box alignItems="center" justifyContent="center" flexDirection="row" style={{ paddingVertical: space(16), gap: space(8), marginBottom: space(16) }}>
-                {!disableAnimations && <ActivityIndicator size="small" color="#3FA692" />}
+                {!disableAnimations && <ActivityIndicator size="small" color={contrastColors.primary} />}
                 <Text size="sm" color="$textLight500">Carregando tarefas...</Text>
               </Box>
             ) : null}
@@ -120,7 +120,7 @@ function DashboardContent() {
               <VStack style={{ gap: space(12) }}>
                 <HStack style={{ gap: space(12) }}>
                   <Box flex={1} bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} alignItems="center" p="$4">
-                    <ListChecks size={24} color="#3FA692" style={{ marginBottom: 8 }} />
+                    <ListChecks size={24} color={contrastColors.primary} style={{ marginBottom: 8 }} />
                     <Text size="xl" fontWeight="$bold" color="$textDark900">{taskSummary.total}</Text>
                     <Text size="xs" color="$textLight500" textAlign="center">Total de Tarefas</Text>
                   </Box>
@@ -137,7 +137,7 @@ function DashboardContent() {
                     <Text size="xs" color="$textLight500" textAlign="center">Concluídas</Text>
                   </Box>
                   <Box flex={1} bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} alignItems="center" p="$4">
-                    <TrendingUp size={24} color="#3FA692" style={{ marginBottom: 8 }} />
+                    <TrendingUp size={24} color={contrastColors.primary} style={{ marginBottom: 8 }} />
                     <Text size="xl" fontWeight="$bold" color="$textDark900">{completionRate}%</Text>
                     <Text size="xs" color="$textLight500" textAlign="center">Taxa de Conclusão</Text>
                   </Box>
@@ -157,7 +157,7 @@ function DashboardContent() {
                 <HStack alignItems="center" justifyContent="space-between" style={{ marginBottom: space(12) }}>
                   <HStack alignItems="center" style={{ gap: space(12) }}>
                     <Box w="$10" h="$10" borderRadius="$xl" bg="$backgroundLight100" alignItems="center" justifyContent="center">
-                      <Brain size={20} color="#3FA692" />
+                      <Brain size={20} color={contrastColors.primary} />
                     </Box>
                     <Text fontWeight="$semibold" color="$textDark900" style={{ fontSize: 16 * scale }}>Painel Cognitivo</Text>
                   </HStack>
@@ -255,12 +255,12 @@ function DashboardContent() {
             </VStack>
 
             {!hideDescriptions && (
-              <Box bg="#E3F2EE" borderRadius="$xl" style={{ padding: space(16), marginTop: space(12) }}>
+              <Box bg={contrastColors.primaryLight} borderRadius="$xl" style={{ padding: space(16), marginTop: space(12) }}>
                 <HStack alignItems="center" style={{ gap: space(16) }}>
                   {!reduceVisualStimuli && (
-                    <Box w="$10" h="$10" borderRadius="$xl" bg="#3FA692" alignItems="center" justifyContent="center" opacity={0.2} position="absolute" />
+                    <Box w="$10" h="$10" borderRadius="$xl" bg={contrastColors.primary} alignItems="center" justifyContent="center" opacity={0.2} position="absolute" />
                   )}
-                  <Sparkles size={20} color="#3FA692" style={{ marginTop: 2, marginLeft: space(10) }} />
+                  <Sparkles size={20} color={contrastColors.primary} style={{ marginTop: 2, marginLeft: space(10) }} />
                   <VStack flex={1}>
                     <Text fontWeight="$semibold" color="$textDark900" style={{ fontSize: 15 * scale, marginBottom: space(4) }}>Dica do dia</Text>
                     <Text size="sm" color="$textLight600" style={{ fontSize: 13 * scale, lineHeight: 20 }}>

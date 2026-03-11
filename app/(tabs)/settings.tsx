@@ -1,14 +1,19 @@
 import { FontProvider, useFontScale } from "@/components/dashboard/FontContext";
 import { useAppearance, useScaledSpace } from "@/contexts/AppearanceContext";
 import { userSettingsRepository } from "@/data/repositories/userSettingsRepository";
-import { Box, HStack, Pressable, ScrollView, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Switch, Text, VStack } from "@gluestack-ui/themed";
+import { Box, HStack, Pressable, ScrollView, Switch, Text, VStack } from "@gluestack-ui/themed";
 import { useFocusEffect } from "@react-navigation/native";
-import { Eye, Focus, Move, Settings as SettingsIcon, Sparkles, Sun, Timer, Type, Zap } from "lucide-react-native";
+import { Eye, Focus, Move, Settings as SettingsIcon, Sparkles, Sun, Type, Zap } from "lucide-react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
+import Slider from "@react-native-community/slider";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const DEBOUNCE_MS = 600;
+
+const styles = StyleSheet.create({
+    slider: { width: "100%", height: 40 },
+});
 
 interface SettingToggleProps {
     icon: React.ElementType;
@@ -20,6 +25,7 @@ interface SettingToggleProps {
 }
 
 function SettingToggle({ icon: Icon, label, description, checked, onChange, scale = 1 }: SettingToggleProps) {
+    const { contrastColors } = useAppearance();
     return (
         <HStack alignItems="center" justifyContent="space-between" p="$4" borderRadius="$xl" bg="$backgroundLight50" sx={{
             _light: {
@@ -33,7 +39,7 @@ function SettingToggle({ icon: Icon, label, description, checked, onChange, scal
                     borderRadius="$xl"
                     alignItems="center"
                     justifyContent="center"
-                    bg={checked ? "#3FA692" : "$backgroundLight200"}
+                    bg={checked ? contrastColors.primary : "$backgroundLight200"}
                 >
                     <Icon
                         size={20}
@@ -79,6 +85,7 @@ function SettingSlider({
     suffix = "%",
     scale = 1
 }: SettingSliderProps) {
+    const { contrastColors } = useAppearance();
     return (
         <Box p="$4" borderRadius="$xl" bg="$backgroundLight50">
             <HStack alignItems="center" gap="$4" mb="$4">
@@ -89,24 +96,21 @@ function SettingSlider({
                     <Text fontWeight="$medium" color="$textLight900" style={{ fontSize: 14 * scale }}>{label}</Text>
                     <Text size="xs" color="$textLight500" style={{ fontSize: 12 * scale }}>{description}</Text>
                 </VStack>
-                <Text size="sm" fontWeight="$semibold" color="#3FA692" style={{ fontSize: 14 * scale }}>
+                <Text size="sm" fontWeight="$semibold" color={contrastColors.primary} style={{ fontSize: 14 * scale }}>
                     {value}{suffix}
                 </Text>
             </HStack>
             <Slider
-                minValue={min}
-                maxValue={max}
-                step={5}
+                style={styles.slider}
                 value={value}
-                onChange={onChange}
-                size="md"
-                orientation="horizontal"
-            >
-                <SliderTrack bg="$backgroundLight200">
-                    <SliderFilledTrack bg="#3FA692" />
-                </SliderTrack>
-                <SliderThumb bg="#3FA692" $active-bg="#0f766e" />
-            </Slider>
+                onValueChange={onChange}
+                minimumValue={min}
+                maximumValue={max}
+                step={5}
+                minimumTrackTintColor={contrastColors.primary}
+                maximumTrackTintColor="#94a3b8"
+                thumbTintColor={contrastColors.primary}
+            />
         </Box>
     );
 }
@@ -274,17 +278,17 @@ function SettingsForm({
 }: SettingsFormProps) {
     const { scale } = useFontScale();
     const space = useScaledSpace();
-    const { complexityLevel, summaryMode, focusMode } = useAppearance();
+    const { complexityLevel, summaryMode, focusMode, contrastColors } = useAppearance();
     const hideDescriptions = complexityLevel === "simple" || summaryMode || focusMode;
 
     return (
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Box flex={1} bg="$white">
-                    <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+                    <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
                         <VStack style={{ padding: space(16), paddingTop: space(16), gap: space(24) }}>
                             {/* Header */}
                             <HStack alignItems="center" style={{ gap: space(16), marginBottom: space(12) }}>
-                                <Box w="$12" h="$12" borderRadius="$xl" bg="#3FA692" alignItems="center" justifyContent="center">
+                                <Box w="$12" h="$12" borderRadius="$xl" bg={contrastColors.primary} alignItems="center" justifyContent="center">
                                     <SettingsIcon size={24} color="white" />
                                 </Box>
                                 <VStack>
@@ -310,7 +314,7 @@ function SettingsForm({
 
                             {loading ? (
                                 <Box py="$4" alignItems="center" justifyContent="center" flexDirection="row" gap="$2">
-                                    {!disableAnimations && <ActivityIndicator size="small" color="#3FA692" />}
+                                    {!disableAnimations && <ActivityIndicator size="small" color={contrastColors.primary} />}
                                     <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scale }}>Carregando configurações...</Text>
                                 </Box>
                             ) : null}
@@ -319,7 +323,7 @@ function SettingsForm({
                             {/* Behavior settings */}
                             <Box bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} style={{ padding: space(18), marginBottom: space(20) }}>
                                 <HStack alignItems="center" gap="$2" mb="$5">
-                                    <Zap size={20} color="#3FA692" />
+                                    <Zap size={20} color={contrastColors.primary} />
                                     <Text fontWeight="$semibold" color="$textLight900" fontSize="$lg">
                                         Comportamento
                                     </Text>
@@ -347,7 +351,7 @@ function SettingsForm({
                             {/* Visual settings */}
                             <Box bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} style={{ padding: space(18), marginBottom: space(20) }}>
                                 <HStack alignItems="center" gap="$2" mb="$5">
-                                    <Sparkles size={20} color="#3FA692" />
+                                    <Sparkles size={20} color={contrastColors.primary} />
                                     <Text fontWeight="$semibold" color="$textLight900" fontSize="$lg">
                                         Ajustes Visuais
                                     </Text>
@@ -379,8 +383,8 @@ function SettingsForm({
                                         description="Ajuste a intensidade das cores"
                                         value={contrast}
                                         onChange={setContrast}
-                                        min={80}
-                                        max={120}
+                                        min={65}
+                                        max={130}
                                         scale={scale}
                                     />
                                 </VStack>
@@ -389,7 +393,7 @@ function SettingsForm({
                             {/* Accessibility settings */}
                             <Box bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} style={{ padding: space(18), marginBottom: space(16) }}>
                                 <HStack alignItems="center" gap="$2" mb="$5">
-                                    <Eye size={20} color="#3FA692" />
+                                    <Eye size={20} color={contrastColors.primary} />
                                     <Text fontWeight="$semibold" color="$textLight900" fontSize="$lg">
                                         Acessibilidade
                                     </Text>
@@ -409,16 +413,6 @@ function SettingsForm({
                                         description="Remover todas as animações da interface"
                                         checked={disableAnimations}
                                         onChange={setDisableAnimations}
-                                        scale={scale}
-                                    />
-                                    <SettingSlider
-                                        icon={Timer}
-                                        label="Ritmo da Interface"
-                                        description="Velocidade das transições e feedbacks"
-                                        value={interfaceSpeed}
-                                        onChange={setInterfaceSpeed}
-                                        min={50}
-                                        max={150}
                                         scale={scale}
                                     />
                                 </VStack>
