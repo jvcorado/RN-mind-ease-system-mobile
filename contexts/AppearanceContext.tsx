@@ -1,5 +1,5 @@
 import { userSettingsRepository } from "@/data/repositories/userSettingsRepository";
-import type { ComplexityLevel } from "@/data/repositories/userSettingsRepository";
+import type { ComplexityLevel } from "@/data/types/userSettings";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 export type { ComplexityLevel };

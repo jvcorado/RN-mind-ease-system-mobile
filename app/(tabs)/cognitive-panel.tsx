@@ -10,7 +10,8 @@ import { FocusModeToggle } from "@/components/dashboard/FocusModeToggle";
 import { FontProvider } from "@/components/dashboard/FontContext";
 import { VisualControls } from "@/components/dashboard/VisualControls";
 import { useAppearance, useScaledSpace } from "@/contexts/AppearanceContext";
-import { userSettingsRepository, type ComplexityLevel } from "@/data/repositories/userSettingsRepository";
+import { userSettingsRepository } from "@/data/repositories/userSettingsRepository";
+import { type ComplexityLevel } from "@/data/types/userSettings";
 
 const DEBOUNCE_MS = 600;
 
@@ -180,39 +181,39 @@ function CognitivePanelContent() {
                                     <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scaleVal, marginTop: space(12) }}>Carregando configurações...</Text>
                                 </Box>
                             ) : (
-                            <>
-                            <VStack>
-                                <Box style={{ marginBottom: space(24) }}>
-                                    <ComplexitySelector value={complexity} onChange={setComplexity} />
-                                </Box>
-                                <Box style={{ marginBottom: space(24) }}>
-                                    <FocusModeToggle
-                                        focusMode={focusMode}
-                                        onFocusModeChange={setFocusMode}
-                                        summaryMode={summaryMode}
-                                        onSummaryModeChange={setSummaryMode}
-                                        readingMode={readingMode}
-                                        onReadingModeChange={handleReadingModeChange}
-                                    />
-                                </Box>
-                                <Box>
-                                    <VisualControls
-                                        fontSize={fontSize}
-                                        spacing={spacing}
-                                        contrast={contrast}
-                                        onFontSizeChange={setFontSize}
-                                        onSpacingChange={setSpacing}
-                                        onContrastChange={setContrast}
-                                    />
-                                </Box>
-                            </VStack>
+                                <>
+                                    <VStack>
+                                        <Box style={{ marginBottom: space(24) }}>
+                                            <ComplexitySelector value={complexity} onChange={setComplexity} />
+                                        </Box>
+                                        <Box style={{ marginBottom: space(24) }}>
+                                            <FocusModeToggle
+                                                focusMode={focusMode}
+                                                onFocusModeChange={setFocusMode}
+                                                summaryMode={summaryMode}
+                                                onSummaryModeChange={setSummaryMode}
+                                                readingMode={readingMode}
+                                                onReadingModeChange={handleReadingModeChange}
+                                            />
+                                        </Box>
+                                        <Box>
+                                            <VisualControls
+                                                fontSize={fontSize}
+                                                spacing={spacing}
+                                                contrast={contrast}
+                                                onFontSizeChange={setFontSize}
+                                                onSpacingChange={setSpacing}
+                                                onContrastChange={setContrast}
+                                            />
+                                        </Box>
+                                    </VStack>
 
-                            <Box alignItems="center" style={{ marginTop: space(16) }}>
-                                <Text size="xs" color="$textLight400" style={{ fontSize: 12 * scaleVal }}>
-                                    {focusMode ? "Modo foco ativo" : "Modo normal"} · Complexidade {complexity === "simple" ? "simples" : "detalhada"}
-                                </Text>
-                            </Box>
-                            </>
+                                    <Box alignItems="center" style={{ marginTop: space(16) }}>
+                                        <Text size="xs" color="$textLight400" style={{ fontSize: 12 * scaleVal }}>
+                                            {focusMode ? "Modo foco ativo" : "Modo normal"} · Complexidade {complexity === "simple" ? "simples" : "detalhada"}
+                                        </Text>
+                                    </Box>
+                                </>
                             )}
 
                         </VStack>

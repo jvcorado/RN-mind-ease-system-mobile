@@ -1,9 +1,5 @@
 import { supabase } from "../../lib/supabase";
-
-type SubtaskUpdate = {
-  title?: string;
-  completed?: boolean;
-};
+import { SubtaskUpdate } from "../types/subtask";
 
 export const subtaskRepository = {
   async getSubtasks(taskId: string) {
