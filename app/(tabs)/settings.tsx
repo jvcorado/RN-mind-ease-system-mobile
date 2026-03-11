@@ -187,15 +187,18 @@ function SettingsContent() {
 
     useEffect(() => {
         setAppearance({ fontSize, spacing, contrast });
-    }, [fontSize, spacing, contrast, setAppearance]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fontSize, spacing, contrast]);
 
     useEffect(() => {
         setAppearance({ summaryMode: summaryDefault, focusMode: focusDefault });
-    }, [summaryDefault, focusDefault, setAppearance]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [summaryDefault, focusDefault]);
 
     useEffect(() => {
         setAppearance({ reduceVisualStimuli: reduceStimuli, disableAnimations: disableAnimations });
-    }, [reduceStimuli, disableAnimations, setAppearance]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [reduceStimuli, disableAnimations]);
 
     useEffect(() => {
         if (!hasLoadedOnce.current) return;
@@ -282,44 +285,44 @@ function SettingsForm({
     const hideDescriptions = complexityLevel === "simple" || summaryMode || focusMode;
 
     return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-                <Box flex={1} bg="$white">
-                    <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
-                        <VStack style={{ padding: space(16), paddingTop: space(16), gap: space(24) }}>
-                            {/* Header */}
-                            <HStack alignItems="center" style={{ gap: space(16), marginBottom: space(12) }}>
-                                <Box w="$12" h="$12" borderRadius="$xl" bg={contrastColors.primary} alignItems="center" justifyContent="center">
-                                    <SettingsIcon size={24} color="white" />
-                                </Box>
-                                <VStack>
-                                    <Text size="xl" fontWeight="$bold" color="$textLight900" style={{ fontSize: 24 * scale }}>
-                                        Configurações
-                                    </Text>
-                                    {!hideDescriptions && (
-                                        <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scale }}>
-                                            Personalize sua experiência por completo
-                                        </Text>
-                                    )}
-                                </VStack>
-                            </HStack>
-
-                            {error ? (
-                                <Box bg="$error50" p="$4" borderRadius="$xl" borderWidth={1} borderColor="$error200">
-                                    <Text color="$error700" mb="$3" style={{ fontSize: 14 * scale }}>{error}</Text>
-                                    <Pressable onPress={fetchSettings} bg="$error500" px="$4" py="$2" borderRadius="$md" alignSelf="flex-start">
-                                        <Text color="$white" fontWeight="$semibold">Tentar novamente</Text>
-                                    </Pressable>
-                                </Box>
-                            ) : null}
-
-                            {loading ? (
-                                <Box py="$4" alignItems="center" justifyContent="center" flexDirection="row" gap="$2">
-                                    {!disableAnimations && <ActivityIndicator size="small" color={contrastColors.primary} />}
-                                    <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scale }}>Carregando configurações...</Text>
-                                </Box>
-                            ) : null}
-
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <Box flex={1} bg="$white">
+                <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
+                    <VStack style={{ padding: space(16), paddingTop: space(16), gap: space(24) }}>
+                        {/* Header */}
+                        <HStack alignItems="center" style={{ gap: space(16), marginBottom: space(12) }}>
+                            <Box w="$12" h="$12" borderRadius="$xl" bg={contrastColors.primary} alignItems="center" justifyContent="center">
+                                <SettingsIcon size={24} color="white" />
+                            </Box>
                             <VStack>
+                                <Text size="xl" fontWeight="$bold" color="$textLight900" style={{ fontSize: 24 * scale }}>
+                                    Configurações
+                                </Text>
+                                {!hideDescriptions && (
+                                    <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scale }}>
+                                        Personalize sua experiência por completo
+                                    </Text>
+                                )}
+                            </VStack>
+                        </HStack>
+
+                        {error ? (
+                            <Box bg="$error50" p="$4" borderRadius="$xl" borderWidth={1} borderColor="$error200">
+                                <Text color="$error700" mb="$3" style={{ fontSize: 14 * scale }}>{error}</Text>
+                                <Pressable onPress={fetchSettings} bg="$error500" px="$4" py="$2" borderRadius="$md" alignSelf="flex-start">
+                                    <Text color="$white" fontWeight="$semibold">Tentar novamente</Text>
+                                </Pressable>
+                            </Box>
+                        ) : null}
+
+                        {loading ? (
+                            <Box py="$4" alignItems="center" justifyContent="center" flexDirection="row" gap="$2">
+                                {!disableAnimations && <ActivityIndicator size="small" color={contrastColors.primary} />}
+                                <Text size="sm" color="$textLight500" style={{ fontSize: 14 * scale }}>Carregando configurações...</Text>
+                            </Box>
+                        ) : null}
+
+                        <VStack>
                             {/* Behavior settings */}
                             <Box bg="$white" borderRadius="$xl" borderWidth={1} borderColor="$borderLight200" shadowColor="$backgroundLight900" shadowOffset={{ width: 0, height: 2 }} shadowOpacity={0.05} shadowRadius={8} elevation={1} style={{ padding: space(18), marginBottom: space(20) }}>
                                 <HStack alignItems="center" gap="$2" mb="$5">
